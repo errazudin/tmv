@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECHANIKOS VICTORIOUS | SIR 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Futuristic Fonts */
+        body { font-family: 'Rajdhani', sans-serif; }
+        .font-mono-tech { font-family: 'Share Tech Mono', monospace; }
+        
+        /* Glitch Effect for Title - Monochrome */
+        .glitch-text:hover {
+            text-shadow: 2px 0 #888, -2px 0 #FFF;
+        }
+        
+        /* Custom Scrollbar - Monochrome */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+
+        /* Neon Glow Utilities - Monochrome */
+        .glow-border { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+        .active-tab { 
+            background-color: #ffffff; 
+            color: #000; 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .active-week {
+            border-color: #ffffff;
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-black text-neutral-300 min-h-screen selection:bg-white selection:text-black">
+
+    <!-- BACKGROUND GRID - Monochrome -->
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-20" 
+         style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-4xl mx-auto px-4 py-10 space-y-12">
+
+        <!-- HEADER / IDENTITY -->
+        <header class="flex flex-col items-center space-y-4 animate-fade-in">
+            <!-- LOGO REMOVED completely -->
+            
+            <div class="text-center space-y-1">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-widest text-white uppercase glitch-text transition-all cursor-default">
+                    Mechanikos Victorious
+                </h1>
+                <p class="text-sm font-mono-tech text-neutral-500 tracking-[0.3em] uppercase">Velocity // Endurance // Fellowship</p>
+            </div>
+        </header>
+
+        <!-- HUD DASHBOARD - Monochrome -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono-tech">
+            <!-- Date Module -->
+            <div class="border border-neutral-800 bg-neutral-900/50 p-4 rounded backdrop-blur-sm flex flex-col items-center justify-center glow-border">
+                <span class="text-xs text-neutral-500 uppercase">System Date</span>
+                <span id="current-date" class="text-xl text-white">LOADING...</span>
+                <!-- Accent changed to white -->
+                <span id="current-time" class="text-white text-2xl font-bold">00:00:00</span>
+            </div>
+
+            <!-- Target Module -->
+            <!-- Borders and accents changed to white -->
+            <div class="border border-white/30 bg-neutral-900/50 p-4 rounded backdrop-blur-sm flex flex-col items-center justify-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-1">
+                    <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                </div>
+                <span class="text-xs text-white uppercase tracking-widest">Target Acquired</span>
+                <span class="text-lg text-white font-bold mt-1">SIR 2025</span>
+                <span class="text-xs text-neutral-400">Cyber Valley</span>
+            </div>
+
+            <!-- Countdown Module -->
+            <div class="border border-neutral-800 bg-neutral-900/50 p-4 rounded backdrop-blur-sm flex flex-col items-center justify-center glow-border">
+                <span class="text-xs text-neutral-500 uppercase">T-Minus Launch</span>
+                <div id="countdown" class="text-2xl text-white font-bold">00d 00h 00m</div>
+                <!-- Accent changed to white/neutral -->
+                <span class="text-xs text-neutral-300">PHASE: TRAINING</span>
+            </div>
+        </section>
+
+        <!-- MISSION CONTROL (THE GUIDES) -->
+        <main class="border-t border-neutral-800 pt-8">
+            
+            <!-- Mode Selector -->
+            <div class="flex flex-col items-center mb-8 space-y-2">
+                <h2 class="text-xl font-bold text-white uppercase tracking-wider">Select Protocol</h2>
+                <div class="flex p-1 bg-neutral-900 rounded-lg border border-neutral-800">
+                    <!-- Buttons updated for monochrome active states -->
+                    <button onclick="setMode('casual')" id="btn-casual" class="px-6 py-2 rounded-md text-sm font-bold transition-all duration-300 uppercase active-tab">
+                        Casual Ops
+                    </button>
+                    <button onclick="setMode('pro')" id="btn-pro" class="px-6 py-2 rounded-md text-sm font-bold text-neutral-500 hover:text-white transition-all duration-300 uppercase">
+                        Pro Elite
+                    </button>
+                </div>
+            </div>
+
+            <!-- DYNAMIC CONTENT AREA -->
+            <div class="bg-neutral-900/80 border border-neutral-700 rounded-xl shadow-2xl backdrop-blur-md overflow-hidden min-h-[500px] flex flex-col">
+                
+                <!-- Week Selector Tabs - Monochrome styles -->
+                <div class="flex border-b border-neutral-700 bg-black/50">
+                    <button onclick="setWeek(1)" id="tab-week-1" class="flex-1 py-4 text-sm font-mono-tech uppercase border-b-2 border-transparent hover:bg-neutral-800/50 transition-colors active-week">
+                        Week 1 <span class="block text-[10px] opacity-60">Nov 22 - 30</span>
+                    </button>
+                    <button onclick="setWeek(2)" id="tab-week-2" class="flex-1 py-4 text-sm font-mono-tech uppercase border-b-2 border-neutral-700 text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/50 transition-colors">
+                        Week 2 <span class="block text-[10px] opacity-60">Dec 1 - 7</span>
+                    </button>
+                    <button onclick="setWeek(3)" id="tab-week-3" class="flex-1 py-4 text-sm font-mono-tech uppercase border-b-2 border-neutral-700 text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/50 transition-colors">
+                        Week 3 <span class="block text-[10px] opacity-60">Dec 8 - 13</span>
+                    </button>
+                </div>
+
+                <!-- Content Body -->
+                <div id="guide-content" class="p-6 md:p-8 flex-1 transition-opacity duration-300">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+        </main>
+
+        <!-- EVENT LOG - Monochrome -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-neutral-800">
+            <div>
+                <!-- Header color changed to white -->
+                <h3 class="text-white font-mono-tech text-sm mb-4 uppercase border-b border-neutral-800 pb-2">Mission History</h3>
+                <ul class="space-y-3 text-sm text-neutral-400">
+                    <li class="flex justify-between">
+                        <span class="text-white">SKINJÄN</span>
+                        <!-- Completed color changed to white -->
+                        <span class="text-white font-mono-tech">COMPLETED</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-mono-tech text-sm mb-4 uppercase border-b border-neutral-800 pb-2">Upcoming Sorties</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex justify-between items-center group cursor-pointer">
+                        <!-- Hover color changed to white -->
+                        <span class="group-hover:text-white transition-colors">Selangor Int. Ride 2025</span>
+                        <!-- Badge color changed to white/black -->
+                        <span class="bg-white text-black text-[10px] font-bold px-2 py-0.5 rounded">IN PROGRESS</span>
+                    </li>
+                    <li class="flex justify-between items-center opacity-30">
+                        <span>[AWAITING ORDERS]</span>
+                        <span class="text-[10px] border border-neutral-700 px-2 py-0.5 rounded">TBA</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="text-center text-xs text-neutral-600 font-mono-tech pt-12 pb-4">
+            SYSTEM STATUS: OPTIMAL <br>
+            &copy; 2025 MECHANIKOS VICTORIOUS. ALL RIGHTS RESERVED.
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- STATE ---
+        let currentMode = 'casual';
+        let currentWeek = 1;
+
+        // --- DATA STORE - UPDATED FOR MONOCHROME ---
+        // All colors (green, red, yellow) replaced with 'white'
+        const missionData = {
+            casual: {
+                header: { title: "CASUAL OPS", sub: "GOAL: FINISH COMFORTABLY", color: "text-white", border: "border-white" },
+                weeks: {
+                    1: {
+                        focus: "WAKE UP THE LEGS",
+                        schedule: [
+                            { day: "Sat, Nov 22", task: "Fun Ride (10km). Just get moving. Check tires." },
+                            { day: "Sun, Nov 23", task: "Rest Day. Enjoy your Sunday." },
+                            { day: "Mid-Week", task: "One 30-min ride (Indoor or Outdoor)." }
+                        ],
+                        tip: "Don't stress the distance yet. Just check if your bike works."
+                    },
+                    2: {
+                        focus: "SADDLE TIME",
+                        schedule: [
+                            { day: "Sat, Nov 29", task: "Long Ride (15-18km). Chatty pace." },
+                            { day: "Sun, Nov 30", task: "Rest." },
+                            { day: "Mid-Week", task: "30-min easy spin. Keep legs loose." }
+                        ],
+                        tip: "If you can talk while riding, you are doing it right."
+                    },
+                    3: {
+                        focus: "TAPER & PREP",
+                        schedule: [
+                            { day: "Sat, Dec 6", task: "Dress Rehearsal (10km). Test your kit." },
+                            { day: "Wed, Dec 10", task: "Tech Check. Clean chain & brakes." },
+                            { day: "Fri, Dec 12", task: "REST. Hydrate heavily." }
+                        ],
+                        tip: "Eat Chicken Rice for lunch before race day. No spicy food!"
+                    }
+                }
+            },
+            pro: {
+                header: { title: "PRO ELITE", sub: "GOAL: 88KM CHALLENGE (21% HILLY)", color: "text-white", border: "border-white" },
+                weeks: {
+                    1: {
+                        focus: "VOLUME & BUILDING",
+                        schedule: [
+                            { day: "Sat, Nov 22", task: "Zone 2 (40km). Steady state." },
+                            { day: "Sun, Nov 23", task: "Endurance (60km). Test nutrition." },
+                            { day: "Tue, Nov 25", task: "Hill Repeats (1 hr). 4x 8-min efforts." },
+                            { day: "Thu, Nov 27", task: "Tempo (35km). 2x 15min at race pace." }
+                        ],
+                        tip: "This is your highest volume week. Eat well to recover."
+                    },
+                    2: {
+                        focus: "PEAK INTENSITY",
+                        schedule: [
+                            { day: "Sat, Nov 29", task: "Endurance (70km). CRITICAL SESSION." },
+                            { day: "Tue, Dec 2", task: "Threshold. 3x 10min hard." },
+                            { day: "Sun, Dec 7", task: "Hill Attack (30km). Focus on climbing form." }
+                        ],
+                        tip: "Simulate the race heat. Ride late morning if possible."
+                    },
+                    3: {
+                        focus: "TAPER & RACE",
+                        schedule: [
+                            { day: "Tue, Dec 9", task: "Intervals (30km). Short bursts to keep snap." },
+                            { day: "Thu, Dec 11", task: "Easy Spin (20km)." },
+                            { day: "Sat, Dec 13", task: "Activation (10km) + 2 Sprints." }
+                        ],
+                        tip: "Carb load starts 2 days prior. Sleep is priority #1."
+                    }
+                }
+            }
+        };
+
+        // --- RENDER LOGIC - UPDATED FOR MONOCHROME ---
+        function renderContent() {
+            const contentDiv = document.getElementById('guide-content');
+            const data = missionData[currentMode];
+            const weekData = data.weeks[currentWeek];
+            
+            // Header
+            let html = `
+                <div class="animate-pulse-once">
+                    <div class="flex items-center justify-between border-b border-neutral-700 pb-4 mb-6">
+                        <div>
+                            <h3 class="text-2xl text-white font-bold">${data.header.title}</h3>
+                            <p class="${data.header.color} font-mono-tech text-sm">${data.header.sub}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-neutral-400 uppercase tracking-widest">Week ${currentWeek} Focus</div>
+                            <div class="text-lg text-white font-bold">${weekData.focus}</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2 space-y-4">
+                            <h4 class="font-bold text-neutral-400 font-mono-tech text-sm uppercase border-l-2 ${data.header.border} pl-3">Operational Schedule</h4>
+                            <ul class="space-y-3">
+            `;
+
+            // Schedule Loop
+            weekData.schedule.forEach(item => {
+                html += `
+                    <li class="flex items-start bg-neutral-800/30 p-3 rounded hover:bg-neutral-800/50 transition-colors">
+                        <span class="${data.header.color} mr-3 font-bold font-mono-tech whitespace-nowrap">${item.day}</span>
+                        <span class="text-neutral-300 text-sm">${item.task}</span>
+                    </li>
+                `;
+            });
+
+            html += `
+                            </ul>
+                        </div>
+                        
+                        <div class="md:col-span-1">
+                            <div class="bg-neutral-800/50 p-4 rounded border border-neutral-700 h-full">
+                                <!-- Tactical Intel title color changed to white -->
+                                <h4 class="text-white font-bold text-sm mb-2 font-mono-tech">TACTICAL INTEL</h4>
+                                <p class="text-neutral-400 text-sm italic">"${weekData.tip}"</p>
+                                
+                                <div class="mt-6 pt-6 border-t border-neutral-700">
+                                    <span class="text-xs text-neutral-600 uppercase">Status</span>
+                                    <div class="flex items-center mt-1">
+                                        <!-- Status light changed to white -->
+                                        <span class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                                        <span class="text-xs text-white font-bold">ACTIVE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentDiv.innerHTML = html;
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // UI Update Buttons - Monochrome styles
+            document.getElementById('btn-casual').className = mode === 'casual' 
+                ? "px-6 py-2 rounded-md text-sm font-bold transition-all duration-300 uppercase active-tab"
+                : "px-6 py-2 rounded-md text-sm font-bold text-neutral-500 hover:text-white transition-all duration-300 uppercase";
+                
+            document.getElementById('btn-pro').className = mode === 'pro'
+                ? "px-6 py-2 rounded-md text-sm font-bold transition-all duration-300 uppercase active-tab"
+                : "px-6 py-2 rounded-md text-sm font-bold text-neutral-500 hover:text-white transition-all duration-300 uppercase";
+
+            renderContent();
+        }
+
+        function setWeek(week) {
+            currentWeek = week;
+            
+            // UI Update Tabs - Monochrome styles
+            [1, 2, 3].forEach(id => {
+                const tab = document.getElementById(`tab-week-${id}`);
+                if (id === week) {
+                    tab.classList.add('active-week');
+                    tab.classList.remove('text-neutral-500', 'border-neutral-700');
+                } else {
+                    tab.classList.remove('active-week');
+                    tab.classList.add('text-neutral-500', 'border-neutral-700');
+                }
+            });
+
+            renderContent();
+        }
+
+        // --- UTILS ---
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
+        }
+
+        function updateCountdown() {
+            const eventDate = new Date('December 14, 2025 07:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "MISSION ACTIVE";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m`;
+        }
+
+        // Initialize
+        setInterval(updateTime, 1000);
+        setInterval(updateCountdown, 60000);
+        updateTime();
+        updateCountdown();
+        setMode('casual'); // Default load
+
+    </script>
+    <style>
+        /* Custom Animation Class */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+        
+        @keyframes pulseOnce {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .animate-pulse-once { animation: pulseOnce 0.5s ease-out forwards; }
+    </style>
+</body>
+</html>
