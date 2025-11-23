@@ -82,7 +82,8 @@
             <!-- Countdown Module -->
             <div class="border border-neutral-800 bg-neutral-900/50 p-4 rounded backdrop-blur-sm flex flex-col items-center justify-center glow-border">
                 <span class="text-xs text-neutral-500 uppercase">T-Minus Launch</span>
-                <div id="countdown" class="text-2xl text-white font-bold">00d 00h 00m</div>
+                <!-- Updated ID for seconds support -->
+                <div id="countdown" class="text-xl md:text-2xl text-white font-bold tabular-nums">00d 00h 00m 00s</div>
                 <!-- Accent changed to white/neutral -->
                 <span class="text-xs text-neutral-300">PHASE: TRAINING</span>
             </div>
@@ -117,7 +118,7 @@
                         Week 2 <span class="block text-[10px] opacity-60">Dec 1 - 7</span>
                     </button>
                     <button onclick="setWeek(3)" id="tab-week-3" class="flex-1 py-4 text-sm font-mono-tech uppercase border-b-2 border-neutral-700 text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/50 transition-colors">
-                        Week 3 <span class="block text-[10px] opacity-60">Dec 8 - 13</span>
+                        Week 3 <span class="block text-[10px] opacity-60">Dec 8 - 14</span>
                     </button>
                 </div>
 
@@ -136,14 +137,18 @@
                 <h3 class="text-white font-mono-tech text-sm mb-4 uppercase border-b border-neutral-800 pb-2">Mission History</h3>
                 <ul class="space-y-3 text-sm text-neutral-400">
                     <li class="flex justify-between">
-                        <span class="text-white">SKINJÄN</span>
-                        <!-- Completed color changed to white -->
+                        <span class="text-white">G.PERÄSS</span>
                         <span class="text-white font-mono-tech">COMPLETED</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-neutral-400">SKINJÄN</span>
+                        <span class="text-neutral-500 font-mono-tech">COMPLETED</span>
                     </li>
                 </ul>
             </div>
             <div>
-                <h3 class="text-white font-mono-tech text-sm mb-4 uppercase border-b border-neutral-800 pb-2">Upcoming Sorties</h3>
+                <!-- Renamed to Upcoming Dragons -->
+                <h3 class="text-white font-mono-tech text-sm mb-4 uppercase border-b border-neutral-800 pb-2">Upcoming Dragons</h3>
                 <ul class="space-y-3 text-sm">
                     <li class="flex justify-between items-center group cursor-pointer">
                         <!-- Hover color changed to white -->
@@ -172,18 +177,20 @@
         let currentMode = 'casual';
         let currentWeek = 1;
 
-        // --- DATA STORE - UPDATED FOR MONOCHROME ---
-        // All colors (green, red, yellow) replaced with 'white'
+        // --- DATA STORE ---
         const missionData = {
             casual: {
-                header: { title: "CASUAL OPS", sub: "GOAL: FINISH COMFORTABLY", color: "text-white", border: "border-white" },
+                // Updated Subtitle for Casual
+                header: { title: "CASUAL OPS", sub: "GOAL: FINISH COMFORTABLY [25km]", color: "text-white", border: "border-white" },
                 weeks: {
                     1: {
                         focus: "WAKE UP THE LEGS",
                         schedule: [
-                            { day: "Sat, Nov 22", task: "Fun Ride (10km). Just get moving. Check tires." },
+                            { day: "Sat, Nov 22", task: "Fun Ride (10km). Just get moving." },
                             { day: "Sun, Nov 23", task: "Rest Day. Enjoy your Sunday." },
-                            { day: "Mid-Week", task: "One 30-min ride (Indoor or Outdoor)." }
+                            { day: "Diet", task: "🥗 Hydration: Aim for 2L water daily. No sugary sodas." },
+                            { day: "Mid-Week", task: "One 30-min ride (Indoor or Outdoor)." },
+                            { day: "Diet", task: "🥗 Eat balanced meals. Avoid skipping breakfast." }
                         ],
                         tip: "Don't stress the distance yet. Just check if your bike works."
                     },
@@ -191,6 +198,7 @@
                         focus: "SADDLE TIME",
                         schedule: [
                             { day: "Sat, Nov 29", task: "Long Ride (15-18km). Chatty pace." },
+                            { day: "Diet", task: "🥗 Practice: Drink water *while* riding this Saturday." },
                             { day: "Sun, Nov 30", task: "Rest." },
                             { day: "Mid-Week", task: "30-min easy spin. Keep legs loose." }
                         ],
@@ -201,7 +209,10 @@
                         schedule: [
                             { day: "Sat, Dec 6", task: "Dress Rehearsal (10km). Test your kit." },
                             { day: "Wed, Dec 10", task: "Tech Check. Clean chain & brakes." },
-                            { day: "Fri, Dec 12", task: "REST. Hydrate heavily." }
+                            { day: "Fri, Dec 12", task: "REST. Hydrate heavily." },
+                            { day: "Sat, Dec 13", task: "🥗 Lunch: Chicken Rice. Dinner: Pasta. NO SPICY FOOD." },
+                            { day: "Sun, Dec 14", task: "🚀 04:00 AM: Wake up. Light breakfast (Toast/Bun)." },
+                            { day: "Sun, Dec 14", task: "🚀 06:15 AM: Stop drinking huge amounts of water." }
                         ],
                         tip: "Eat Chicken Rice for lunch before race day. No spicy food!"
                     }
@@ -215,6 +226,7 @@
                         schedule: [
                             { day: "Sat, Nov 22", task: "Zone 2 (40km). Steady state." },
                             { day: "Sun, Nov 23", task: "Endurance (60km). Test nutrition." },
+                            { day: "Diet", task: "🥗 Post-Ride: Protein shake or Eggs within 30 mins." },
                             { day: "Tue, Nov 25", task: "Hill Repeats (1 hr). 4x 8-min efforts." },
                             { day: "Thu, Nov 27", task: "Tempo (35km). 2x 15min at race pace." }
                         ],
@@ -224,6 +236,7 @@
                         focus: "PEAK INTENSITY",
                         schedule: [
                             { day: "Sat, Nov 29", task: "Endurance (70km). CRITICAL SESSION." },
+                            { day: "Diet", task: "🥗 Testing: Use the exact gel/bar you plan for race day." },
                             { day: "Tue, Dec 2", task: "Threshold. 3x 10min hard." },
                             { day: "Sun, Dec 7", task: "Hill Attack (30km). Focus on climbing form." }
                         ],
@@ -232,9 +245,12 @@
                     3: {
                         focus: "TAPER & RACE",
                         schedule: [
-                            { day: "Tue, Dec 9", task: "Intervals (30km). Short bursts to keep snap." },
+                            { day: "Tue, Dec 9", task: "Intervals (30km). Short bursts." },
                             { day: "Thu, Dec 11", task: "Easy Spin (20km)." },
-                            { day: "Sat, Dec 13", task: "Activation (10km) + 2 Sprints." }
+                            { day: "Fri, Dec 12", task: "🥗 Carb Load: Increase Rice/Pasta portions." },
+                            { day: "Sat, Dec 13", task: "Activation (10km). Dinner: Plain Pasta/Rice. No Fibre." },
+                            { day: "Sun, Dec 14", task: "🚀 03:30 AM: Wake Up. Coffee + Oatmeal/Toast." },
+                            { day: "Sun, Dec 14", task: "🚀 06:00 AM: 1 Energy Gel + Sip Water." }
                         ],
                         tip: "Carb load starts 2 days prior. Sleep is priority #1."
                     }
@@ -242,7 +258,7 @@
             }
         };
 
-        // --- RENDER LOGIC - UPDATED FOR MONOCHROME ---
+        // --- RENDER LOGIC ---
         function renderContent() {
             const contentDiv = document.getElementById('guide-content');
             const data = missionData[currentMode];
@@ -270,10 +286,24 @@
 
             // Schedule Loop
             weekData.schedule.forEach(item => {
+                // Check if it's a diet item for styling
+                const isDiet = item.task.includes("🥗");
+                const isRace = item.task.includes("🚀");
+                let bgClass = "bg-neutral-800/30";
+                let textClass = "text-neutral-300";
+                
+                if (isDiet) {
+                    bgClass = "bg-green-900/20 border border-green-900/50";
+                    textClass = "text-green-100";
+                } else if (isRace) {
+                    bgClass = "bg-white/10 border border-white/50";
+                    textClass = "text-white font-bold";
+                }
+
                 html += `
-                    <li class="flex items-start bg-neutral-800/30 p-3 rounded hover:bg-neutral-800/50 transition-colors">
-                        <span class="${data.header.color} mr-3 font-bold font-mono-tech whitespace-nowrap">${item.day}</span>
-                        <span class="text-neutral-300 text-sm">${item.task}</span>
+                    <li class="flex items-start ${bgClass} p-3 rounded hover:bg-neutral-800/50 transition-colors">
+                        <span class="${data.header.color} mr-3 font-bold font-mono-tech whitespace-nowrap text-xs md:text-sm pt-0.5">${item.day}</span>
+                        <span class="${textClass} text-sm">${item.task}</span>
                     </li>
                 `;
             });
@@ -284,14 +314,12 @@
                         
                         <div class="md:col-span-1">
                             <div class="bg-neutral-800/50 p-4 rounded border border-neutral-700 h-full">
-                                <!-- Tactical Intel title color changed to white -->
                                 <h4 class="text-white font-bold text-sm mb-2 font-mono-tech">TACTICAL INTEL</h4>
                                 <p class="text-neutral-400 text-sm italic">"${weekData.tip}"</p>
                                 
                                 <div class="mt-6 pt-6 border-t border-neutral-700">
                                     <span class="text-xs text-neutral-600 uppercase">Status</span>
                                     <div class="flex items-center mt-1">
-                                        <!-- Status light changed to white -->
                                         <span class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
                                         <span class="text-xs text-white font-bold">ACTIVE</span>
                                     </div>
@@ -308,7 +336,7 @@
         function setMode(mode) {
             currentMode = mode;
             
-            // UI Update Buttons - Monochrome styles
+            // UI Update Buttons
             document.getElementById('btn-casual').className = mode === 'casual' 
                 ? "px-6 py-2 rounded-md text-sm font-bold transition-all duration-300 uppercase active-tab"
                 : "px-6 py-2 rounded-md text-sm font-bold text-neutral-500 hover:text-white transition-all duration-300 uppercase";
@@ -323,7 +351,7 @@
         function setWeek(week) {
             currentWeek = week;
             
-            // UI Update Tabs - Monochrome styles
+            // UI Update Tabs
             [1, 2, 3].forEach(id => {
                 const tab = document.getElementById(`tab-week-${id}`);
                 if (id === week) {
@@ -358,13 +386,20 @@
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000); // SECONDS ADDED
 
-            document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m`;
+            // Formatting with leading zeros for that digital clock feel
+            const d = days < 10 ? "0"+days : days;
+            const h = hours < 10 ? "0"+hours : hours;
+            const m = minutes < 10 ? "0"+minutes : minutes;
+            const s = seconds < 10 ? "0"+seconds : seconds;
+
+            document.getElementById('countdown').innerHTML = `${d}d ${h}h ${m}m ${s}s`;
         }
 
         // Initialize
         setInterval(updateTime, 1000);
-        setInterval(updateCountdown, 60000);
+        setInterval(updateCountdown, 1000); // Updated to 1 second interval
         updateTime();
         updateCountdown();
         setMode('casual'); // Default load
